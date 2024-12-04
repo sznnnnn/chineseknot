@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>结艺工具 - 中国传统结艺</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+            min-height: 834px;
+            background: linear-gradient(135deg, #FFF6E9, #FFF);
+            background-image: 
+                linear-gradient(135deg, #FFF6E9, #FFF),
+                url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 50L30 70L50 90L70 70L50 50' stroke='%23AD4E32' stroke-width='0.5' fill='none' opacity='0.1'/%3E%3C/svg%3E");
+            overflow-y: auto;
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #AD4E32, transparent);
+        }
+
+        .title {
+            font-size: 32px;
+            color: #AD4E32;
+            margin-bottom: 15px;
+            letter-spacing: 4px;
+            text-shadow: 2px 2px 4px rgba(173, 78, 50, 0.1);
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .tool-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(173, 78, 50, 0.08);
+            border: 1px solid rgba(173, 78, 50, 0.1);
+            transition: transform 0.3s, background-color 0.3s;
+            position: relative;
+            cursor: pointer;
+            isolation: isolate;
+        }
+
+        .tool-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(173, 78, 50, 0.05);
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: -1;
+            border-radius: 15px;
+        }
+
+        .tool-card:active::after {
+            opacity: 1;
+        }
+
+        .tool-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid rgba(173, 78, 50, 0.1);
+        }
+
+        .tool-content {
+            padding: 20px;
+        }
+
+        .tool-title {
+            font-size: 20px;
+            color: #AD4E32;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tool-icon {
+            width: 24px;
+            height: 24px;
+            background: rgba(173, 78, 50, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .material-icons-round {
+            color: #AD4E32;
+            font-size: inherit;
+        }
+
+        .tool-desc {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .tool-features {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .tool-feature {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .tool-feature::before {
+            content: '•';
+            color: #AD4E32;
+            position: absolute;
+            left: 0;
+        }
+
+        .section-title {
+            font-size: 24px;
+            color: #AD4E32;
+            margin: 40px 0 20px;
+            text-align: center;
+        }
+
+        .tool-detail {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+
+        .tool-detail.active {
+            display: flex;
+        }
+
+        .detail-content {
+            background: #fff;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.3s ease forwards;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .detail-header {
+            position: relative;
+            height: 300px;
+        }
+
+        .detail-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: rgba(173, 78, 50, 0.05);
+            transition: opacity 0.3s;
+        }
+
+        .detail-image[loading] {
+            opacity: 0.5;
+        }
+
+        .detail-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.2s, transform 0.2s;
+        }
+
+        .detail-close:active {
+            background: #fff;
+            transform: scale(0.95);
+        }
+
+        .detail-body {
+            padding: 30px;
+        }
+
+        .detail-title {
+            font-size: 24px;
+            color: #AD4E32;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .detail-section {
+            margin-bottom: 25px;
+        }
+
+        .detail-section-title {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        .detail-text {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .usage-steps {
+            list-style: none;
+            counter-reset: step;
+        }
+
+        .usage-step {
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 15px;
+            counter-increment: step;
+        }
+
+        .usage-step::before {
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 24px;
+            height: 24px;
+            background: rgba(173, 78, 50, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #AD4E32;
+            font-size: 12px;
+        }
+
+        .detail-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .detail-content::-webkit-scrollbar-track {
+            background: rgba(173, 78, 50, 0.05);
+            border-radius: 4px;
+        }
+
+        .detail-content::-webkit-scrollbar-thumb {
+            background: rgba(173, 78, 50, 0.2);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">结艺工具</h1>
+            <p class="subtitle">传统结艺工具介绍与使用指南</p>
+        </header>
+
+        <h2 class="section-title">基础工具</h2>
+        <div class="tools-grid">
+            <div class="tool-card">
+                <img class="tool-image" src="https://via.placeholder.com/400x200?text=编绳针" alt="编绳针">
+                <div class="tool-content">
+                    <h3 class="tool-title">
+                        <span class="tool-icon">
+                            <span class="material-icons-round">build</span>
+                        </span>
+                        编绳针
+                    </h3>
+                    <p class="tool-desc">编绳针是制作中国结最基本的工具，用于穿引绳子，使结艺制作更加便捷。</p>
+                    <ul class="tool-features">
+                        <li class="tool-feature">不同尺寸适合不同粗细的绳材</li>
+                        <li class="tool-feature">针头弯曲设计便于穿引</li>
+                        <li class="tool-feature">手柄防滑，使用舒适</li>
+                    </ul>
+                </div>
+                <div class="tool-detail">
+                    <div class="detail-content">
+                        <div class="detail-header">
+                            <img class="detail-image" src="https://via.placeholder.com/800x300?text=编绳针详情" alt="编绳针详情">
+                            <div class="detail-close">
+                                <span class="material-icons-round">close</span>
+                            </div>
+                        </div>
+                        <div class="detail-body">
+                            <h3 class="detail-title">
+                                <span class="tool-icon">
+                                    <span class="material-icons-round">build</span>
+                                </span>
+                                编绳针
+                            </h3>
+                            <div class="detail-section">
+                                <h4 class="detail-section-title">工具介绍</h4>
+                                <p class="detail-text">编绳针是中国传统结艺中最基本也是最重要的工具之一。它的设计巧妙地结合了针的穿引功能和手柄的操控性，能够帮助编织者轻松地完成各种复杂的结艺造型。</p>
+                            </div>
+                            <div class="detail-section">
+                                <h4 class="detail-section-title">使用方法</h4>
+                                <ul class="usage-steps">
+                                    <li class="usage-step">选择适合绳材粗细的编绳针</li>
+                                    <li class="usage-step">将绳子穿过针孔</li>
+                                    <li class="usage-step">握住手柄部分，开始编织操作</li>
+                                    <li class="usage-step">注意保持绳材张力均匀</li>
+                                </ul>
+                            </div>
+                            <div class="detail-section">
+                                <h4 class="detail-section-title">使用技巧</h4>
+                                <p class="detail-text">1. 定期检查针头是否弯曲变形<br>2. 使用前确保针孔无毛刺<br>3. 根据结艺难度选择合适长度的针柄</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <img class="tool-image" src="https://via.placeholder.com/400x200?text=穿针器" alt="穿针器">
+                <div class="tool-content">
+                    <h3 class="tool-title">
+                        <span class="tool-icon">
+                            <span class="material-icons-round">sync_alt</span>
+                        </span>
+                        穿针器
+                    </h3>
+                    <p class="tool-desc">辅助工具，帮助将绳子穿过编绳针的针孔，特别适合较粗的绳材。</p>
+                    <ul class="tool-features">
+                        <li class="tool-feature">弹性钢丝设计</li>
+                        <li class="tool-feature">快速穿绳</li>
+                        <li class="tool-feature">多种尺寸可选</li>
+                    </ul>
+                </div>
+                <div class="tool-detail">
+                    <div class="detail-content">
+                        <div class="detail-header">
+                            <img class="detail-image" src="https://via.placeholder.com/800x300?text=穿针器详情" alt="穿针器详情">
+                            <div class="detail-close">
+                                <span class="material-icons-round">close</span>
+                            </div>
+                        </div>
+                        <div class="detail-body">
+                            <h3 class="detail-title">
+                                <span class="tool-icon">
+                                    <span class="material-icons-round">sync_alt</span>
+                                </span>
+                                穿针器
+                            </h3>
+                            <div class="detail-section">
+                                <h4 class="detail-section-title">工具介绍</h4>
+                                <p class="detail-text">穿针器是一种专门用于辅助穿线的工具，采用特殊的弹性钢丝设计，可以轻松地将各种粗细的绳材穿过编绳针的针孔，大大提高了工作效率。</p>
+                            </div>
+                            <div class="detail-section">
+                                <h4 class="detail-section-title">使用方法</h4>
+                                <ul class="usage-steps">
+                                    <li class="usage-step">将穿针器的钢丝圈穿过针孔</li>
+                                    <li class="usage-step">将绳材放入钢丝圈中</li>
+                                    <li class="usage-step">轻轻拉动穿针器，带动绳材穿过针孔</li>
+                                    <li class="usage-step">调整绳材位置至合适长度</li>
+                                </ul>
+                            </div>
+                            <div class="detail-section">
+                                <h4 class="detail-section-title">使用技巧</h4>
+                                <p class="detail-text">1. 选择合适尺寸的穿针器<br>2. 保持钢丝圈的弹性<br>3. 定期检查钢丝是否变形</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <img class="tool-image" src="https://via.placeholder.com/400x200?text=绳尺" alt="绳尺">
+                <div class="tool-content">
+                    <h3 class="tool-title">
+                        <span class="tool-icon">
+                            <span class="material-icons-round">straighten</span>
+                        </span>
+                        绳尺
+                    </h3>
+                    <p class="tool-desc">专用于测量绳子长度的工具，确保每个结的尺寸准确，作品更加精致。</p>
+                    <ul class="tool-features">
+                        <li class="tool-feature">刻度清晰，测量准确</li>
+                        <li class="tool-feature">便携设计，随手可用</li>
+                        <li class="tool-feature">防滑底，使用稳定</li>
+                    </ul>
+                </div>
+                <div class="tool-detail">
+                    <div class="detail-content">
+                        <div class="detail-header">
+                            <img class="detail-image" src="https://via.placeholder.com/800x300?text=绳尺详情" alt="绳尺详情">
+                            <div class="detail-close">
+                                <span class="material-icons-round">close</span>
+                            </div>
+                        </div>
+                        <div class="detail-body">
+                            <h3 class="detail-title">
+                                <span class="tool-icon">
+                                    <span class="material-icons-round">straighten</span>
+                                </span>
+                                绳尺
+                            </h3>
+                            <div class="detail-section">
+                                <h4 class="detail-section-title">工具介绍</h4>
+                                <p class="detail-text">绳尺是专门用于测量绳材长度的工具，采用防滑材质和清晰的刻度设计，能够准确测量出编织所需的绳材长度，是制作精美结艺作品的重要工具。</p>
+                            </div>
+                            <div class="detail-section">
+                                <h4 class="detail-section-title">使用方法</h4>
+                                <ul class="usage-steps">
+                                    <li class="usage-step">将绳材平整地放置在绳尺上</li>
+                                    <li class="usage-step">对齐绳材起点与零刻度</li>
+                                    <li class="usage-step">根据需要测量所需长度</li>
+                                    <li class="usage-step">标记测量位置</li>
+                                </ul>
+                            </div>
+                            <div class="detail-section">
+                                <h4 class="detail-section-title">使用技巧</h4>
+                                <p class="detail-text">1. 测量时保持绳材平直<br>2. 预留适当的余量<br>3. 注意不同结艺的用绳量差异</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <img class="tool-image" src="https://via.placeholder.com/400x200?text=绳材夹" alt="绳材夹">
+                <div class="tool-content">
+                    <h3 class="tool-title">
+                        <span class="tool-icon">
+                            <span class="material-icons-round">push_pin</span>
+                        </span>
+                        绳材夹
+                    </h3>
+                    <p class="tool-desc">固定绳材的专用工具，可以稳固地夹住绳子，方便编织操作。</p>
+                    <ul class="tool-features">
+                        <li class="tool-feature">防滑夹口设计</li>
+                        <li class="tool-feature">不损伤绳材</li>
+                        <li class="tool-feature">可调节夹力</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <img class="tool-image" src="https://via.placeholder.com/400x200?text=剪刀" alt="剪刀">
+                <div class="tool-content">
+                    <h3 class="tool-title">
+                        <span class="tool-icon">
+                            <span class="material-icons-round">content_cut</span>
+                        </span>
+                        专业剪刀
+                    </h3>
+                    <p class="tool-desc">用于裁剪绳材的专业工具，锋利的刀刃确保切口平整，不会出现毛边。</p>
+                    <ul class="tool-features">
+                        <li class="tool-feature">特殊钢材制作，持久锋利</li>
+                        <li class="tool-feature">人体工学手设计</li>
+                        <li class="tool-feature">适合各类绳材切割</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title">辅助工具</h2>
+        <div class="tools-grid">
+            <div class="tool-card">
+                <img class="tool-image" src="https://via.placeholder.com/400x200?text=定型板" alt="定型板">
+                <div class="tool-content">
+                    <h3 class="tool-title">
+                        <span class="tool-icon">
+                            <span class="material-icons-round">grid_on</span>
+                        </span>
+                        定型板
+                    </h3>
+                    <p class="tool-desc">帮助固定绳结形状的辅助工具，使结艺作品更加规整美观。</p>
+                    <ul class="tool-features">
+                        <li class="tool-feature">多种规格可选</li>
+                        <li class="tool-feature">材质轻便耐用</li>
+                        <li class="tool-feature">便��携带存放</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <img class="tool-image" src="https://via.placeholder.com/400x200?text=绳材板" alt="绳材板">
+                <div class="tool-content">
+                    <h3 class="tool-title">
+                        <span class="tool-icon">
+                            <span class="material-icons-round">dashboard</span>
+                        </span>
+                        绳材板
+                    </h3>
+                    <p class="tool-desc">用于放置和整理绳材的专用板，防止绳材缠绕和混乱。</p>
+                    <ul class="tool-features">
+                        <li class="tool-feature">多槽位设计</li>
+                        <li class="tool-feature">防滑表面处理</li>
+                        <li class="tool-feature">便于收纳整理</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <img class="tool-image" src="https://via.placeholder.com/400x200?text=打蜡工具" alt="打蜡工具">
+                <div class="tool-content">
+                    <h3 class="tool-title">
+                        <span class="tool-icon">
+                            <span class="material-icons-round">local_fire_department</span>
+                        </span>
+                        打蜡工具
+                    </h3>
+                    <p class="tool-desc">用于给绳材上蜡的专业工具，使绳结更加坚固耐用。</p>
+                    <ul class="tool-features">
+                        <li class="tool-feature">温度可调节</li>
+                        <li class="tool-feature">使用安全方便</li>
+                        <li class="tool-feature">适合各类蜡料</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <img class="tool-image" src="https://via.placeholder.com/400x200?text=绳头处理工具" alt="绳头处理工具">
+                <div class="tool-content">
+                    <h3 class="tool-title">
+                        <span class="tool-icon">
+                            <span class="material-icons-round">format_paint</span>
+                        </span>
+                        绳头处理工具
+                    </h3>
+                    <p class="tool-desc">用于处理绳子末端，防止绳材散开，使作品更加美观。</p>
+                    <ul class="tool-features">
+                        <li class="tool-feature">确切割</li>
+                        <li class="tool-feature">热封功能</li>
+                        <li class="tool-feature">多种处理方式</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.tool-card').forEach(card => {
+            const detail = card.querySelector('.tool-detail');
+            const closeBtn = card.querySelector('.detail-close');
+            const detailContent = card.querySelector('.detail-content');
+            const detailImage = card.querySelector('.detail-image');
+
+            card.addEventListener('click', (e) => {
+                if (!e.target.closest('.detail-close')) {
+                    detail.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                    detailContent?.scrollTo(0, 0);
+                }
+            });
+
+            closeBtn?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                detail.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+
+            detail?.addEventListener('click', (e) => {
+                if (e.target === detail) {
+                    detail.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+
+            detailImage?.addEventListener('load', () => {
+                detailImage.removeAttribute('loading');
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && detail?.classList.contains('active')) {
+                    detail.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+
+            detailContent?.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+        });
+    </script>
+</body>
+</html> 

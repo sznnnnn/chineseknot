@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文化探索 - 中国结艺历史</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+            min-height: 834px;
+            background: linear-gradient(135deg, #FFF6E9, #FFF);
+            background-image: 
+                linear-gradient(135deg, #FFF6E9, #FFF),
+                url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 50L30 70L50 90L70 70L50 50' stroke='%23AD4E32' stroke-width='0.5' fill='none' opacity='0.1'/%3E%3C/svg%3E");
+            display: flex;
+            flex-direction: column;
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #AD4E32, transparent);
+        }
+
+        .title {
+            font-size: 32px;
+            color: #AD4E32;
+            margin-bottom: 15px;
+            letter-spacing: 4px;
+            text-shadow: 2px 2px 4px rgba(173, 78, 50, 0.1);
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .timeline {
+            position: relative;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scroll-snap-type: x mandatory;
+            display: flex;
+            gap: 40px;
+            align-items: center;
+            padding-bottom: 30px;
+        }
+
+        .timeline::before,
+        .timeline::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 40px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .timeline::before {
+            left: 0;
+            background: linear-gradient(90deg, #FFF6E9, transparent);
+        }
+
+        .timeline::after {
+            right: 0;
+            background: linear-gradient(-90deg, #FFF6E9, transparent);
+        }
+
+        .timeline-item {
+            min-width: 300px;
+            scroll-snap-align: center;
+            position: relative;
+            padding-bottom: 30px;
+        }
+
+        .timeline-content {
+            width: 100%;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(173, 78, 50, 0.08);
+            border: 1px solid rgba(173, 78, 50, 0.1);
+            position: relative;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .timeline-content:active {
+            transform: scale(1.02);
+            background-color: rgba(173, 78, 50, 0.05);
+        }
+
+        .timeline-date {
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            width: 120px;
+            padding: 8px 16px;
+            background: #AD4E32;
+            color: #fff;
+            border-radius: 20px;
+            text-align: center;
+            font-size: 14px;
+            transform: translateX(-50%);
+            box-shadow: 0 4px 12px rgba(173, 78, 50, 0.2);
+        }
+
+        .timeline-title {
+            font-size: 20px;
+            color: #AD4E32;
+            margin-bottom: 10px;
+        }
+
+        .timeline-desc {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .timeline-image {
+            width: 100%;
+            height: 180px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-top: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(173, 78, 50, 0.1);
+        }
+
+        .decorative-dot {
+            display: none;
+        }
+
+        /* 添加滚动条样式 */
+        .timeline::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .timeline::-webkit-scrollbar-track {
+            background: rgba(173, 78, 50, 0.1);
+            border-radius: 4px;
+        }
+
+        .timeline::-webkit-scrollbar-thumb {
+            background: #AD4E32;
+            border-radius: 4px;
+        }
+
+        /* 添加滑动提示 */
+        .scroll-hint {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-top: 20px;
+            opacity: 0.6;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">绳结文化史</h1>
+            <p class="subtitle">追溯中国结艺发展的历史长河</p>
+            <p class="scroll-hint">← 左右滑动浏览更多历史 →</p>
+        </header>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <span class="timeline-date">远古时期</span>
+                    <h3 class="timeline-title">结绳记事</h3>
+                    <p class="timeline-desc">远古时期，我国先民用绳结记事，这是结艺最早的应用。结绳记事被认为是文字产生之前最重要的记录方式之一。</p>
+                    <img class="timeline-image" src="https://via.placeholder.com/400x200?text=结绳记事图" alt="结绳记事">
+                </div>
+                <div class="decorative-dot"></div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <span class="timeline-date">秦汉时期</span>
+                    <h3 class="timeline-title">实用与装饰并重</h3>
+                    <p class="timeline-desc">秦汉时期，中国结开始在服饰、建筑等领域广泛应用，既有实用功能，也具备装饰作用。</p>
+                    <img class="timeline-image" src="https://via.placeholder.com/400x200?text=秦汉结艺图" alt="秦汉结艺">
+                </div>
+                <div class="decorative-dot"></div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <span class="timeline-date">唐宋时期</span>
+                    <h3 class="timeline-title">艺术巅峰</h3>
+                    <p class="timeline-desc">唐宋时期是中国结艺发展的黄金时期，出现了大量精美的装饰性结艺，并开始与佛教文化相结合。</p>
+                    <img class="timeline-image" src="https://via.placeholder.com/400x200?text=唐宋结艺图" alt="唐宋结艺">
+                </div>
+                <div class="decorative-dot"></div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <span class="timeline-date">明清时期</span>
+                    <h3 class="timeline-title">民间艺术</h3>
+                    <p class="timeline-desc">明清时期，中国结成为重要的民间艺术形式，在节庆、婚庆等场合广泛使用，并发展出多种独特的结艺样式。</p>
+                    <img class="timeline-image" src="https://via.placeholder.com/400x200?text=明清结艺图" alt="明清结艺">
+                </div>
+                <div class="decorative-dot"></div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <span class="timeline-date">现代</span>
+                    <h3 class="timeline-title">传承与创新</h3>
+                    <p class="timeline-desc">现代中国结艺在传承传统技艺的基础上，不断创新发展，融入现代设计理念，展现出新的艺术魅力。</p>
+                    <img class="timeline-image" src="https://via.placeholder.com/400x200?text=现代结艺图" alt="现代结艺">
+                </div>
+                <div class="decorative-dot"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
