@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中国传统结艺文化学习平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', sans-serif;
+        }
+
+        body {
+            display: flex;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .nav {
+            width: 200px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-right: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-item {
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background-color 0.3s;
+            font-size: 16px;
+        }
+
+        .nav-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .nav-item.active {
+            background-color: #e6f7ff;
+            color: #1890ff;
+        }
+
+        .frame-container {
+            width: 1194px;
+            height: 834px;
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-item active">首页</div>
+        <div class="nav-item">结艺教程</div>
+        <div class="nav-item">文化探索</div>
+        <div class="nav-item">结艺工具</div>
+        <div class="nav-item">互动练习</div>
+        <div class="nav-item">作品展示</div>
+        <div class="nav-item">个人中心</div>
+    </nav>
+    
+    <div class="frame-container">
+        <iframe class="frame" src="pages/home.html"></iframe>
+    </div>
+
+    <script>
+        const navItems = document.querySelectorAll('.nav-item');
+        const frame = document.querySelector('.frame');
+        const pages = {
+            '首页': 'home.html',
+            '结艺教程': 'knots.html',
+            '文化探索': 'culture.html',
+            '结艺工具': 'tools.html',
+            '互动练习': 'practice.html',
+            '作品展示': 'gallery.html',
+            '个人中心': 'profile.html'
+        };
+
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                // 移除其他项目的active类
+                navItems.forEach(i => i.classList.remove('active'));
+                // 添加当前项目的active类
+                item.classList.add('active');
+                // 更新iframe的src
+                frame.src = `pages/${pages[item.textContent]}`;
+            });
+        });
+    </script>
+</body>
+</html> 

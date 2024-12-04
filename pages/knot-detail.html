@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>六耳双钱结 - 中国传统结艺</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+            min-height: 834px;
+            background: linear-gradient(135deg, #FFF6E9, #FFF);
+            background-image: 
+                linear-gradient(135deg, #FFF6E9, #FFF),
+                url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 50L30 70L50 90L70 70L50 50' stroke='%23AD4E32' stroke-width='0.5' fill='none' opacity='0.1'/%3E%3C/svg%3E");
+            overflow-y: auto;
+            padding: 40px;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(173, 78, 50, 0.1);
+            cursor: pointer;
+            color: #AD4E32;
+        }
+
+        .knot-header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .knot-title {
+            font-size: 32px;
+            color: #AD4E32;
+            margin-bottom: 10px;
+        }
+
+        .difficulty {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .difficulty-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .difficulty-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #E5E5E5;
+        }
+
+        .dot.active {
+            background: #AD4E32;
+        }
+
+        .knot-type {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(173, 78, 50, 0.1);
+            color: #AD4E32;
+            border-radius: 12px;
+            font-size: 14px;
+        }
+
+        .knot-content {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .knot-image {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 20px;
+            object-fit: cover;
+            box-shadow: 0 4px 20px rgba(173, 78, 50, 0.1);
+        }
+
+        .knot-info {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .info-section {
+            background: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(173, 78, 50, 0.08);
+        }
+
+        .info-title {
+            font-size: 16px;
+            color: #AD4E32;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-content {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .info-list {
+            list-style: none;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .info-label {
+            color: #AD4E32;
+            font-weight: 500;
+            min-width: 60px;
+        }
+
+        .start-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: #AD4E32;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .start-button:active {
+            background: #963D25;
+        }
+
+        .related-knots {
+            margin-top: 60px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            color: #AD4E32;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .knot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .knot-card {
+            background: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(173, 78, 50, 0.08);
+            transition: transform 0.3s;
+        }
+
+        .knot-card:active {
+            transform: scale(0.98);
+        }
+
+        .card-image {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .card-title {
+            font-size: 16px;
+            color: #AD4E32;
+            margin-bottom: 5px;
+        }
+
+        .card-type {
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="back-button">
+            <span class="material-icons-round">arrow_back</span>
+        </div>
+
+        <header class="knot-header">
+            <h1 class="knot-title">六耳双钱结</h1>
+            <div class="difficulty">
+                <span class="difficulty-label">中等难度</span>
+                <div class="difficulty-dots">
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+            </div>
+            <span class="knot-type">团锦结</span>
+        </header>
+
+        <div class="knot-content">
+            <img class="knot-image" src="https://via.placeholder.com/400" alt="六耳双钱结">
+            
+            <div class="knot-info">
+                <div class="info-section">
+                    <h2 class="info-title">
+                        <span class="material-icons-round">info</span>
+                        基本信息
+                    </h2>
+                    <ul class="info-list">
+                        <li class="info-item">
+                            <span class="info-label">材料</span>
+                            <span>玉线、团头针</span>
+                        </li>
+                        <li class="info-item">
+                            <span class="info-label">耗时</span>
+                            <span>1-2 小时</span>
+                        </li>
+                        <li class="info-item">
+                            <span class="info-label">寓意</span>
+                            <span>好事成双，时富和好运，夫妻和家庭的和谐</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="info-section">
+                    <h2 class="info-title">
+                        <span class="material-icons-round">description</span>
+                        结艺说明
+                    </h2>
+                    <p class="info-content">
+                        六耳双钱结是一种传统的装饰性中国结，由两个对称的三耳结组合而成。其特点是结构精巧，形态优美，常用于制作挂饰、装饰品等。
+                    </p>
+                </div>
+
+                <div class="start-button">
+                    <span class="material-icons-round">play_circle</span>
+                    开始制作
+                </div>
+            </div>
+        </div>
+
+        <div class="related-knots">
+            <h2 class="section-title">相关推荐</h2>
+            <div class="knot-grid">
+                <div class="knot-card">
+                    <img class="card-image" src="https://via.placeholder.com/200" alt="双联结">
+                    <div class="card-content">
+                        <h3 class="card-title">双联结</h3>
+                        <div class="card-type">团锦结</div>
+                    </div>
+                </div>
+
+                <div class="knot-card">
+                    <img class="card-image" src="https://via.placeholder.com/200" alt="蝴蝶结">
+                    <div class="card-content">
+                        <h3 class="card-title">蝴蝶结</h3>
+                        <div class="card-type">平结类</div>
+                    </div>
+                </div>
+
+                <div class="knot-card">
+                    <img class="card-image" src="https://via.placeholder.com/200" alt="吉祥结">
+                    <div class="card-content">
+                        <h3 class="card-title">吉祥结</h3>
+                        <div class="card-type">团锦结</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 返回按钮功能
+        document.querySelector('.back-button').addEventListener('click', () => {
+            window.history.back();
+        });
+
+        // 开始制作按钮功能
+        document.querySelector('.start-button').addEventListener('click', () => {
+            // 跳转到教程页面
+            // window.location.href = 'tutorial.html?id=liuershuangqian';
+        });
+
+        // 相关推荐卡片点击
+        document.querySelectorAll('.knot-card').forEach(card => {
+            card.addEventListener('click', () => {
+                // 跳转到对应的结艺详情页
+                // const knotId = card.dataset.id;
+                // window.location.href = `knot-detail.html?id=${knotId}`;
+            });
+        });
+    </script>
+</body>
+</html> 

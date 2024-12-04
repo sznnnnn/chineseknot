@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页 - 中国传统结艺文化</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #fff5e6, #fff);
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .background-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48cGF0aCBkPSJNMjAgMEwwIDIwaDQwTDIwIDB6IiBmaWxsPSIjZjVmNWY1IiBmaWxsLW9wYWNpdHk9IjAuMiIvPjwvc3ZnPg==');
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .header {
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .title {
+            font-size: 36px;
+            color: #AD4E32;
+            margin-bottom: 20px;
+            letter-spacing: 4px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            padding: 0 40px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s, background-color 0.3s;
+            border: 1px solid rgba(139, 69, 19, 0.1);
+        }
+
+        .feature-card:active {
+            transform: translateY(-5px);
+            background-color: #fff9f0;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background-color: rgba(173, 78, 50, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: #AD4E32;
+        }
+
+        .feature-title {
+            font-size: 20px;
+            color: #AD4E32;
+            margin-bottom: 10px;
+        }
+
+        .feature-desc {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            font-size: 14px;
+            margin-top: 40px;
+        }
+
+        .decorative-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #AD4E32, transparent);
+            width: 200px;
+            margin: 20px auto;
+            opacity: 0.3;
+        }
+
+        /* 禁用默认的触摸高亮效果 */
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* 添加触摸反馈 */
+        @media (hover: none) {
+            .feature-card {
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                user-select: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="background-pattern"></div>
+        
+        <header class="header">
+            <h1 class="title">结艺文化传承</h1>
+            <p class="subtitle">探索中国传统结艺之美，传承千年文化瑰宝</p>
+            <div class="decorative-line"></div>
+        </header>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3 class="feature-title">互动教学</h3>
+                <p class="feature-desc">通过生动的动画演示和互动练习，轻松掌握结艺技巧</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3 class="feature-title">文化探索</h3>
+                <p class="feature-desc">深入了解中国结艺的历史渊源和文化内涵</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h3 class="feature-title">创意展示</h3>
+                <p class="feature-desc">展示您的作品，与其他爱好者交流分享心得</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🏆</div>
+                <h3 class="feature-title">技艺进阶</h3>
+                <p class="feature-desc">从基础到高级，系统化的学习路径</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">👥</div>
+                <h3 class="feature-title">社区互动</h3>
+                <p class="feature-desc">加入结艺爱好者社区，共同探讨与成长</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3 class="feature-title">随时学习</h3>
+                <p class="feature-desc">便捷的移动端体验，随时随地学习结艺</p>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="decorative-line"></div>
+            <p>传承千年文化，弘扬民族艺术</p>
+        </footer>
+    </div>
+</body>
+</html> 
