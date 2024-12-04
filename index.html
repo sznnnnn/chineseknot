@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>中国传统结艺文化学习平台</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zhuque+Fangsong:wght@400;500;600;700&display=swap">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'PingFang SC', sans-serif;
+            font-family: 'Zhuque Fangsong', serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -59,6 +61,23 @@
             height: 100%;
             border: none;
         }
+
+        .page {
+            display: none;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        #knots-page {
+            padding: 40px;
+        }
+
+        .knot-detail {
+            position: relative;
+            background: #FFF6E9;
+            overflow-y: auto;
+        }
     </style>
 </head>
 <body>
@@ -71,7 +90,7 @@
         <div class="nav-item">作品展示</div>
         <div class="nav-item">个人中心</div>
     </nav>
-    
+
     <div class="frame-container">
         <iframe class="frame" src="pages/home.html"></iframe>
     </div>
@@ -89,7 +108,8 @@
             '个人中心': 'profile.html'
         };
 
-        navItems.forEach(item => {
+        // 导航点击处理
+        document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', () => {
                 // 移除其他项目的active类
                 navItems.forEach(i => i.classList.remove('active'));

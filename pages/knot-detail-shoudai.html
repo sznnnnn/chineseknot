@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>绶带结 - 中国传统结艺</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zhuque+Fangsong:wght@400;500;600;700&display=swap">
+    <style>
+        @font-face {
+            font-family: 'AliMamaDongFangDaKai';
+            src: url('/fonts/阿里妈妈东方大楷.TTF') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Zhuque Fangsong', serif;
+            -webkit-tap-highlight-color: transparent;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+            min-height: 834px;
+            background: linear-gradient(135deg, #FFF6E9, #FFF);
+            background-image: 
+                linear-gradient(135deg, #FFF6E9, #FFF),
+                url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 50L30 70L50 90L70 70L50 50' stroke='%23AD4E32' stroke-width='0.5' fill='none' opacity='0.1'/%3E%3C/svg%3E");
+            overflow-y: auto;
+            padding: 40px;
+            padding-top: 60px;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(173, 78, 50, 0.1);
+            cursor: pointer;
+            color: #AD4E32;
+        }
+
+        .knot-header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .knot-title {
+            font-size: 42px;
+            color: #AD4E32;
+            margin-bottom: 20px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(173, 78, 50, 0.15);
+            font-family: 'AliMamaDongFangDaKai', serif;
+        }
+
+        .difficulty {
+            display: flex;
+            align-items: center;
+        }
+
+        .difficulty-label {
+            font-size: 16px;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        .difficulty-dots {
+            display: flex;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #AD4E32;
+            margin-right: 5px;
+        }
+
+        .dot.active {
+            background-color: #FFD700;
+        }
+
+        .knot-type {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .knot-content {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .knot-image {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .knot-info {
+            flex: 1;
+            margin-left: 20px;
+        }
+
+        .info-section {
+            margin-bottom: 20px;
+        }
+
+        .info-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .info-list {
+            list-style: none;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .info-label {
+            font-weight: 600;
+        }
+
+        .info-content {
+            line-height: 1.5;
+        }
+
+        .start-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #AD4E32;
+            color: #FFF;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .related-knots {
+            margin-top: 20px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .knot-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .knot-card {
+            width: 30%;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 10px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .card-type {
+            font-size: 14px;
+            font-weight: 600;
+            color: #AD4E32;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="back-button">
+            <span class="material-icons-round">arrow_back</span>
+        </div>
+
+        <header class="knot-header">
+            <h1 class="knot-title">绶带结</h1>
+            <div class="difficulty">
+                <span class="difficulty-label">中等难度</span>
+                <div class="difficulty-dots">
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+            </div>
+            <span class="knot-type">团锦结</span>
+        </header>
+
+        <div class="knot-content">
+            <img class="knot-image" src="images/knots/10.png" alt="绶带结">
+            
+            <div class="knot-info">
+                <div class="info-section">
+                    <h2 class="info-title">
+                        <span class="material-icons-round">info</span>
+                        基本信息
+                    </h2>
+                    <ul class="info-list">
+                        <li class="info-item">
+                            <span class="info-label">材料</span>
+                            <span>玉线、团头针</span>
+                        </li>
+                        <li class="info-item">
+                            <span class="info-label">耗时</span>
+                            <span>1-1.5 小时</span>
+                        </li>
+                        <li class="info-item">
+                            <span class="info-label">寓意</span>
+                            <span>荣誉、地位、典雅，源自古代官服绶带</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="info-section">
+                    <h2 class="info-title">
+                        <span class="material-icons-round">description</span>
+                        结艺说明
+                    </h2>
+                    <p class="info-content">
+                        绶带结是一种典雅的传统结艺，其设计灵感来自古代官员服饰上的绶带。结构简洁大方，线条流畅，具有浓厚的文化底蕴。常用于制作挂饰、装饰品等，是传统结艺中富有代表性的作品。
+                    </p>
+                </div>
+
+                <div class="start-button">
+                    <span class="material-icons-round">play_circle</span>
+                    开始制作
+                </div>
+            </div>
+        </div>
+
+        <div class="related-knots">
+            <h2 class="section-title">相关推荐</h2>
+            <div class="knot-grid">
+                <div class="knot-card">
+                    <img class="card-image" src="images/knots/6.png" alt="祥云结">
+                    <div class="card-content">
+                        <h3 class="card-title">祥云结</h3>
+                        <div class="card-type">团锦结</div>
+                    </div>
+                </div>
+
+                <div class="knot-card">
+                    <img class="card-image" src="images/knots/3.png" alt="六和结">
+                    <div class="card-content">
+                        <h3 class="card-title">六和结</h3>
+                        <div class="card-type">团锦结</div>
+                    </div>
+                </div>
+
+                <div class="knot-card">
+                    <img class="card-image" src="images/knots/4.png" alt="团锦蝴蝶结">
+                    <div class="card-content">
+                        <h3 class="card-title">团锦蝴蝶结</h3>
+                        <div class="card-type">团锦结</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 返回按钮功能
+        document.querySelector('.back-button').addEventListener('click', () => {
+            window.location.href = 'knots.html';
+        });
+
+        // 开始制作按钮功能
+        document.querySelector('.start-button').addEventListener('click', () => {
+            // 跳转到教程页面
+            // window.location.href = 'tutorial.html?id=shoudaijie';
+        });
+
+        // 相关推荐卡片点击
+        document.querySelectorAll('.knot-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const title = card.querySelector('.card-title').textContent;
+                const knotId = title === '祥云结' ? 'xiangyunjie' :
+                              title === '六和结' ? 'liuhejie' :
+                              title === '团锦蝴蝶结' ? 'tuanjinhudie' : '';
+                if (knotId) {
+                    window.location.href = `knot-detail-${knotId}.html`;
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

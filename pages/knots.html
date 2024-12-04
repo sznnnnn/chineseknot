@@ -5,13 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>结艺教程 - 中国传统结艺</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zhuque+Fangsong:wght@400;500;600;700&display=swap">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'PingFang SC', sans-serif;
+            font-family: 'Zhuque Fangsong', serif;
             -webkit-tap-highlight-color: transparent;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .container {
@@ -36,11 +40,17 @@
             font-size: 32px;
             color: #AD4E32;
             margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 2px rgba(173, 78, 50, 0.1);
         }
 
         .subtitle {
             font-size: 16px;
             color: #666;
+            letter-spacing: 0.5px;
+            line-height: 1.8;
+            font-weight: 500;
         }
 
         .filters {
@@ -58,6 +68,8 @@
             background: #fff;
             border: 1px solid rgba(173, 78, 50, 0.2);
             cursor: pointer;
+            font-weight: 500;
+            letter-spacing: 1px;
         }
 
         .filter-button.active {
@@ -80,34 +92,48 @@
             overflow: hidden;
             box-shadow: 0 4px 20px rgba(173, 78, 50, 0.08);
             cursor: pointer;
-            transition: transform 0.3s;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
 
-        .knot-card:active {
-            transform: scale(0.98);
+        .knot-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(173, 78, 50, 0.12);
         }
 
         .knot-image {
             width: 100%;
-            aspect-ratio: 1;
+            aspect-ratio: 4/3;
             object-fit: cover;
+            background: rgba(173, 78, 50, 0.05);
+            border-bottom: 1px solid rgba(173, 78, 50, 0.05);
+        }
+
+        .knot-image[loading] {
         }
 
         .knot-content {
             padding: 20px;
+            position: relative;
         }
 
         .knot-title {
             font-size: 18px;
             color: #AD4E32;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
         .knot-info {
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: auto 1fr;
             align-items: center;
-            margin-bottom: 12px;
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
         .knot-type {
@@ -116,11 +142,14 @@
             padding: 2px 8px;
             background: rgba(173, 78, 50, 0.1);
             border-radius: 10px;
+            font-weight: 500;
+            height: fit-content;
         }
 
         .difficulty-dots {
             display: flex;
             gap: 3px;
+            justify-content: flex-end;
         }
 
         .dot {
@@ -137,11 +166,378 @@
         .knot-desc {
             font-size: 14px;
             color: #666;
-            line-height: 1.5;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
+            line-height: 1.8;
             overflow: hidden;
+            letter-spacing: 0.3px;
+            margin-top: 15px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(173, 78, 50, 0.1);
+        }
+
+        /* 详情页样式 */
+        .knot-detail {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #FFF6E9;
+            z-index: 1000;
+            display: none;
+            overflow-y: auto;
+        }
+
+        .knot-detail.active {
+            display: block;
+        }
+
+        .detail-container {
+            padding: 40px;
+            padding-top: 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #FFF6E9, #FFF);
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        .detail-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 300px;
+            background: linear-gradient(180deg, rgba(173, 78, 50, 0.05), transparent);
+            z-index: -1;
+        }
+
+        .detail-header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .detail-header::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #AD4E32, transparent);
+        }
+
+        .detail-title {
+            font-size: 42px;
+            color: #AD4E32;
+            font-family: 'AliMamaDongFangDaKai', serif;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(173, 78, 50, 0.15);
+        }
+
+        .detail-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #AD4E32, transparent);
+        }
+
+        .detail-content {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 40px;
+            align-items: start;
+            position: relative;
+        }
+
+        .detail-image {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(173, 78, 50, 0.1);
+        }
+
+        .detail-info {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .info-section {
+            background: #fff;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(173, 78, 50, 0.08);
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .info-section:hover {
+            transform: translateY(-5px);
+        }
+
+        .info-title {
+            font-size: 18px;
+            color: #AD4E32;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .info-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 18px;
+            background: #AD4E32;
+            border-radius: 2px;
+        }
+
+        .info-list {
+            list-style: none;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 12px;
+            font-size: 15px;
+            color: #666;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed rgba(173, 78, 50, 0.1);
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+
+        .info-label {
+            color: #AD4E32;
+            font-weight: 500;
+            min-width: 60px;
+        }
+
+        .info-item .difficulty-dots {
+            margin-left: auto;
+        }
+
+        .info-item .knot-type {
+            margin-left: auto;
+            background: rgba(173, 78, 50, 0.1);
+            padding: 2px 12px;
+            border-radius: 12px;
+            font-size: 14px;
+        }
+
+        .info-item .info-content {
+            flex: 1;
+            line-height: 1.6;
+        }
+
+        .start-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: #AD4E32;
+            color: #fff;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .start-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .start-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(173, 78, 50, 0.1);
+            cursor: pointer;
+            color: #AD4E32;
+        }
+
+        /* 相关推荐部分 */
+        .related-knots {
+            margin-top: 80px;
+            padding-top: 60px;
+            border-top: 1px solid rgba(173, 78, 50, 0.1);
+        }
+
+        .related-title {
+            text-align: center;
+            font-size: 32px;
+            color: #AD4E32;
+            margin-bottom: 40px;
+            font-family: 'AliMamaDongFangDaKai', serif;
+            font-weight: 600;
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .related-card {
+            background: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(173, 78, 50, 0.08);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .related-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* 收藏按钮样式优化 */
+        .favorite-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 2;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+
+        .favorite-btn:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .favorite-btn.active {
+            color: #AD4E32;
+            background: #fff;
+            box-shadow: 0 2px 15px rgba(173, 78, 50, 0.2);
+        }
+
+        .favorite-btn .material-icons-round {
+            font-size: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .favorite-btn:hover .material-icons-round {
+            transform: scale(1.2);
+        }
+
+        .detail-meta {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .meta-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .meta-item .knot-type {
+            background: rgba(173, 78, 50, 0.1);
+            padding: 2px 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            color: #AD4E32;
+        }
+
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            background: rgba(173, 78, 50, 0.05);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .no-results .material-icons-round {
+            font-size: 48px;
+            color: #AD4E32;
+            opacity: 0.5;
+        }
+
+        .no-results p {
+            font-size: 16px;
+        }
+
+        .info-section .detail-title {
+            font-size: 18px;
+            color: #AD4E32;
+            font-family: inherit;
+        }
+
+        .info-item .knot-type {
+            color: #666;
+            background: rgba(173, 78, 50, 0.1);
+            padding: 2px 12px;
+            border-radius: 12px;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -156,13 +552,16 @@
             <button class="filter-button active">全部</button>
             <button class="filter-button">团锦结</button>
             <button class="filter-button">平结类</button>
-            <button class="filter-button">套环结</button>
+            <button class="filter-button">套环</button>
             <button class="filter-button">系列结</button>
         </div>
 
         <div class="knots-grid">
             <div class="knot-card" data-id="liuershuangqian">
-                <img class="knot-image" src="https://via.placeholder.com/400" alt="六耳双钱结">
+                <div class="favorite-btn">
+                    <span class="material-icons-round">favorite_border</span>
+                </div>
+                <img class="knot-image" src="images/knots/liuershuangqian.png" alt="六耳双钱结">
                 <div class="knot-content">
                     <h3 class="knot-title">六耳双钱结</h3>
                     <div class="knot-info">
@@ -179,7 +578,262 @@
                 </div>
             </div>
 
-            <!-- 更多结艺卡片 -->
+            <div class="knot-card" data-id="panchangjie">
+                <div class="favorite-btn">
+                    <span class="material-icons-round">favorite_border</span>
+                </div>
+                <img class="knot-image" src="images/knots/2.png" alt="盘长结">
+                <div class="knot-content">
+                    <h3 class="knot-title">盘长结</h3>
+                    <div class="knot-info">
+                        <span class="knot-type">团锦结</span>
+                        <div class="difficulty-dots">
+                            <span class="dot active"></span>
+                            <span class="dot active"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                        </div>
+                    </div>
+                    <p class="knot-desc">象征吉祥如意、延年益寿，常用于装饰和挂饰。</p>
+                </div>
+            </div>
+
+            <div class="knot-card" data-id="liuhejie">
+                <div class="favorite-btn">
+                    <span class="material-icons-round">favorite_border</span>
+                </div>
+                <img class="knot-image" src="images/knots/3.png" alt="六和结">
+                <div class="knot-content">
+                    <h3 class="knot-title">六和结</h3>
+                    <div class="knot-info">
+                        <span class="knot-type">团锦结</span>
+                        <div class="difficulty-dots">
+                            <span class="dot active"></span>
+                            <span class="dot active"></span>
+                            <span class="dot active"></span>
+                            <span class="dot active"></span>
+                            <span class="dot active"></span>
+                        </div>
+                    </div>
+                    <p class="knot-desc">六瓣花形结构，寓意六六大顺，是传统结艺中较为复杂精美的作品。</p>
+                </div>
+            </div>
+
+            <div class="knot-card" data-id="tuanjinhudie">
+                <div class="favorite-btn">
+                    <span class="material-icons-round">favorite_border</span>
+                </div>
+                <img class="knot-image" src="images/knots/4.png" alt="团锦蝴蝶结">
+                <div class="knot-content">
+                    <h3 class="knot-title">团锦蝴蝶结</h3>
+                    <div class="knot-info">
+                        <span class="knot-type">团锦结</span>
+                        <div class="difficulty-dots">
+                            <span class="dot active"></span>
+                            <span class="dot active"></span>
+                            <span class="dot active"></span>
+                            <span class="dot active"></span>
+                            <span class="dot"></span>
+                        </div>
+                    </div>
+                    <p class="knot-desc">形似蝴蝶翩翩起舞，寓意美好幸福，是传统结艺中极具艺术性的装饰结。</p>
+                </div>
+            </div>
+
+            <div class="knot-card" data-id="wufujie">
+                <div class="favorite-btn">
+                    <span class="material-icons-round">favorite_border</span>
+                </div>
+                <img class="knot-image" src="images/knots/5.png" alt="五福结">
+                <div class="knot-content">
+                    <h3 class="knot-title">五福结</h3>
+                    <div class="knot-info">
+                        <span class="knot-type">系列结</span>
+                        <div class="difficulty-dots">
+                            <span class="dot active"></span>
+                            <span class="dot active"></span>
+                            <span class="dot active"></span>
+                            <span class="dot active"></span>
+                            <span class="dot"></span>
+                        </div>
+                    </div>
+                    <p class="knot-desc">象征五福临门（寿、富、康宁、好德、善终），是传统吉祥结艺的代表。</p>
+                </div>
+            </div>
+
+            <div class="knot-card" data-id="xiangyunjie">
+                <div class="favorite-btn">
+                    <span class="material-icons-round">favorite_border</span>
+                </div>
+                <img class="knot-image" src="images/knots/6.png" alt="祥云结">
+                <div class="knot-content">
+                    <h3 class="knot-title">祥云结</h3>
+                    <div class="knot-info">
+                        <span class="knot-type">团锦结</span>
+                        <div class="difficulty-dots">
+                            <span class="dot active"></span>
+                            <span class="dot active"></span>
+                            <span class="dot active"></span>
+                            <span class="dot active"></span>
+                            <span class="dot active"></span>
+                        </div>
+                    </div>
+                    <p class="knot-desc">形似祥云，寓意祥瑞如意，多用于高档礼品装饰和传统服饰点缀。</p>
+                </div>
+            </div>
+
+            <div class="knot-card" data-id="pipajie">
+                <div class="favorite-btn">
+                    <span class="material-icons-round">favorite_border</span>
+                </div>
+                <img class="knot-image" src="images/knots/7.png" alt="琵琶结">
+                <div class="knot-content">
+                    <h3 class="knot-title">琵琶结</h3>
+                    <div class="knot-info">
+                        <span class="knot-type">平结类</span>
+                        <div class="difficulty-dots">
+                            <span class="dot active"></span>
+                            <span class="dot active"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                        </div>
+                    </div>
+                    <p class="knot-desc">形似琵琶乐器，结构优美，常用于制作挂饰和装饰品的收尾。</p>
+                </div>
+            </div>
+
+            <div class="knot-card" data-id="pantaojie">
+                <div class="favorite-btn">
+                    <span class="material-icons-round">favorite_border</span>
+                </div>
+                <img class="knot-image" src="images/knots/8.png" alt="蟠桃结">
+                <div class="knot-content">
+                    <h3 class="knot-title">蟠桃结</h3>
+                    <div class="knot-info">
+                        <span class="knot-type">团锦结</span>
+                        <div class="difficulty-dots">
+                            <span class="dot active"></span>
+                            <span class="dot active"></span>
+                            <span class="dot active"></span>
+                            <span class="dot active"></span>
+                            <span class="dot"></span>
+                        </div>
+                    </div>
+                    <p class="knot-desc">形似仙桃，寓意长寿吉祥，在传统装饰中常用来表达祝福。</p>
+                </div>
+            </div>
+
+            <div class="knot-card" data-id="shuangqianbian">
+                <div class="favorite-btn">
+                    <span class="material-icons-round">favorite_border</span>
+                </div>
+                <img class="knot-image" src="images/knots/9.png" alt="双钱结变式">
+                <div class="knot-content">
+                    <h3 class="knot-title">双钱结变式</h3>
+                    <div class="knot-info">
+                        <span class="knot-type">团锦结</span>
+                        <div class="difficulty-dots">
+                            <span class="dot active"></span>
+                            <span class="dot active"></span>
+                            <span class="dot active"></span>
+                            <span class="dot active"></span>
+                            <span class="dot"></span>
+                        </div>
+                    </div>
+                    <p class="knot-desc">双钱结的创新变体，保留传统寓意的同时增添新的艺术风格</p>
+                </div>
+            </div>
+
+            <div class="knot-card" data-id="shoudaijie">
+                <div class="favorite-btn">
+                    <span class="material-icons-round">favorite_border</span>
+                </div>
+                <img class="knot-image" src="images/knots/10.png" alt="绶带结">
+                <div class="knot-content">
+                    <h3 class="knot-title">绶带结</h3>
+                    <div class="knot-info">
+                        <span class="knot-type">团锦结</span>
+                        <div class="difficulty-dots">
+                            <span class="dot active"></span>
+                            <span class="dot active"></span>
+                            <span class="dot active"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                        </div>
+                    </div>
+                    <p class="knot-desc">源自古代官服绶带，征荣誉与地位，是传统结艺中的典雅之作。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 详情页容器 -->
+    <div class="knot-detail">
+        <div class="detail-container">
+            <div class="back-button">
+                <span class="material-icons-round">arrow_back</span>
+            </div>
+
+            <header class="detail-header">
+                <h1 class="detail-title"></h1>
+            </header>
+
+            <div class="detail-content">
+                <img class="detail-image" src="" alt="">
+                <div class="detail-info">
+                    <div class="info-section">
+                        <h2 class="info-title">
+                            <span class="material-icons-round">info</span>
+                            基本信息
+                        </h2>
+                        <ul class="info-list">
+                            <li class="info-item">
+                                <span class="info-label">类型</span>
+                                <span class="knot-type"></span>
+                            </li>
+                            <li class="info-item">
+                                <span class="info-label">难度</span>
+                                <div class="difficulty-dots"></div>
+                            </li>
+                            <li class="info-item">
+                                <span class="info-label">材料</span>
+                                <span>玉线、团头针</span>
+                            </li>
+                            <li class="info-item">
+                                <span class="info-label">耗时</span>
+                                <span>1-2 小时</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="info-section">
+                        <h2 class="info-title">
+                            <span class="material-icons-round">lightbulb</span>
+                            文化内涵
+                        </h2>
+                        <ul class="info-list">
+                            <li class="info-item">
+                                <span class="info-label">应用</span>
+                                <span>传统装饰、礼品包装、服饰点缀</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="start-button">
+                        <span class="material-icons-round">play_circle</span>
+                        开始制作
+                    </div>
+                </div>
+            </div>
+
+            <div class="related-knots">
+                <h2 class="related-title">相关推荐</h2>
+                <div class="related-grid">
+                    <!-- 相关推荐卡片将通过 JavaScript 动态生成 -->
+                </div>
+            </div>
         </div>
     </div>
 
@@ -191,15 +845,134 @@
                     btn.classList.remove('active');
                 });
                 button.classList.add('active');
-                // TODO: 实现过滤功能
+
+                const filterType = button.textContent;
+                const cards = document.querySelectorAll('.knot-card');
+
+                cards.forEach(card => {
+                    const cardType = card.querySelector('.knot-type').textContent;
+                    if (filterType === '全部' || cardType === filterType) {
+                        card.style.display = 'flex';
+                        // 添加动画效果
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 50);
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                // 优化网格布局
+                const grid = document.querySelector('.knots-grid');
+                const visibleCards = Array.from(cards).filter(card => 
+                    card.style.display !== 'none'
+                ).length;
+
+                if (visibleCards === 0) {
+                    grid.innerHTML += `
+                        <div class="no-results">
+                            <span class="material-icons-round">search_off</span>
+                            <p>暂无相关结艺</p>
+                        </div>
+                    `;
+                }
             });
         });
 
-        // 点击卡片跳转到详情页
+        // 点击卡片显示详情
         document.querySelectorAll('.knot-card').forEach(card => {
             card.addEventListener('click', () => {
-                const knotId = card.dataset.id;
-                window.location.href = `knot-detail.html?id=${knotId}`;
+                const detail = document.querySelector('.knot-detail');
+                const title = card.querySelector('.knot-title').textContent;
+                const type = card.querySelector('.knot-type').textContent;
+                const dots = card.querySelectorAll('.dot.active').length;
+                const desc = card.querySelector('.knot-desc').textContent;
+                const img = card.querySelector('.knot-image').src;
+
+                // 填充详情内容
+                detail.querySelector('.knot-title').textContent = title;
+                detail.querySelector('.knot-type').textContent = type;
+                detail.querySelector('.detail-image').src = img;
+                detail.querySelector('.detail-image').alt = title;
+
+                // 填充难度点
+                const detailDots = detail.querySelector('.difficulty-dots');
+                detailDots.innerHTML = '';
+                for (let i = 0; i < 5; i++) {
+                    const dot = document.createElement('span');
+                    dot.className = `dot ${i < dots ? 'active' : ''}`;
+                    detailDots.appendChild(dot);
+                }
+
+                // 填充寓意和其他信息
+                detail.querySelector('.info-content').textContent = desc;
+
+                // 生成相关推荐
+                const currentType = card.querySelector('.knot-type').textContent;
+                const relatedCards = Array.from(document.querySelectorAll('.knot-card'))
+                    .filter(otherCard => 
+                        otherCard !== card && 
+                        otherCard.querySelector('.knot-type').textContent === currentType
+                    )
+                    .slice(0, 3);
+
+                const relatedGrid = detail.querySelector('.related-grid');
+                relatedGrid.innerHTML = '';
+                relatedCards.forEach(relatedCard => {
+                    const clone = relatedCard.cloneNode(true);
+                    clone.classList.remove('knot-card');
+                    clone.classList.add('related-card');
+                    relatedGrid.appendChild(clone);
+                });
+
+                detail.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        // 返回按钮功能
+        document.querySelector('.knot-detail .back-button').addEventListener('click', () => {
+            document.querySelector('.knot-detail').classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        // 图片加载优化
+        document.querySelectorAll('.knot-image').forEach(img => {
+            img.setAttribute('loading', 'lazy');
+            img.addEventListener('load', () => {
+                img.removeAttribute('loading');
+            });
+        });
+
+        // 收藏功能
+        const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+
+        document.querySelectorAll('.favorite-btn').forEach(btn => {
+            const knotId = btn.closest('.knot-card').dataset.id;
+            if (favorites.includes(knotId)) {
+                btn.classList.add('active');
+                btn.querySelector('.material-icons-round').textContent = 'favorite';
+            }
+
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const knotId = btn.closest('.knot-card').dataset.id;
+                const index = favorites.indexOf(knotId);
+
+                if (index === -1) {
+                    favorites.push(knotId);
+                    btn.classList.add('active');
+                    btn.querySelector('.material-icons-round').textContent = 'favorite';
+                } else {
+                    favorites.splice(index, 1);
+                    btn.classList.remove('active');
+                    btn.querySelector('.material-icons-round').textContent = 'favorite_border';
+                }
+
+                localStorage.setItem('favorites', JSON.stringify(favorites));
             });
         });
     </script>
