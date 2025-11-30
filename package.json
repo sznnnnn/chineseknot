@@ -1,15 +1,16 @@
 {
-  "name": "seea-s-world",
+  "name": "chineseknot",
   "version": "1.0.0",
-  "description": "",
+  "description": "中国传统结艺文化学习平台",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "中国结",
+    "传统文化",
+    "结艺"
+  ],
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "wx-server-sdk": "^3.0.1"
-  }
+  "license": "ISC"
 }

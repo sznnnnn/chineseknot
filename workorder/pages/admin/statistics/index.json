@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "统计",
-  "usingComponents": {
-    "van-cell": "/miniprogram_npm/@vant/weapp/cell/index",
-    "van-cell-group": "/miniprogram_npm/@vant/weapp/cell-group/index"
-  }
-}

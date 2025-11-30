@@ -1,4 +1,0 @@
-<!--pages/admin/statistics/index.wxml-->
-<view class="container">
-  <text>统计页面</text>
-</view>

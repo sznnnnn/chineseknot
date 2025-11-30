@@ -1,4 +1,0 @@
-<!--pages/admin/orders/assign/index.wxml-->
-<view class="container">
-  <text>工单分配页面</text>
-</view>
